@@ -12,6 +12,7 @@ public class GetRunResponseDto {
     private String id;
     private String name;
     private String tags;
+    private String project;
     private RunStatus status;
     private LocalDateTime timeCreated;
     private LocalDateTime timeFinished;

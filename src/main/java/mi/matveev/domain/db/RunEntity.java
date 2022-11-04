@@ -31,6 +31,9 @@ public class RunEntity {
     @Column(name = "tags")
     private String tags;
 
+    @Column(name = "project")
+    private String project;
+
     @Enumerated(value = EnumType.STRING)
     @Column(name = "status")
     private RunStatus status;

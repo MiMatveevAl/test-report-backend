@@ -6,4 +6,5 @@ import lombok.Data;
 public class CreateRunRequestDto {
     private String name;
     private String tags;
+    private String project;
 }
