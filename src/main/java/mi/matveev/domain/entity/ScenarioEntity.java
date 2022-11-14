@@ -1,10 +1,11 @@
-package mi.matveev.domain.db;
+package mi.matveev.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mi.matveev.domain.enumeration.RunStatus;
+import lombok.Setter;
+import mi.matveev.domain.enumeration.ScenarioStatus;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,33 +15,37 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
-@Data
-@Builder
+@Getter
+@Setter
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
+
 @Entity
-@Table(name = "run")
-public class RunEntity {
+@Table(name = "SCENARIO")
+public class ScenarioEntity {
     @Id
-    @Column(name = "id", length = 36)
+    @Column(name = "ID", length = 36)
     private String id;
 
-    @Column(name = "name")
+    @Column(name = "NAME")
     private String name;
 
-    @Column(name = "tags")
+    @Column(name = "TAGS")
     private String tags;
 
-    @Column(name = "project")
-    private String project;
+    @Column(name = "PATH")
+    private String path;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "status")
-    private RunStatus status;
+    @Column(name = "STATUS")
+    private ScenarioStatus status;
 
-    @Column(name = "time_created")
+    @Column(name = "TIME_CREATED")
     private LocalDateTime timeCreated;
 
-    @Column(name = "time_finished")
+    @Column(name = "TIME_FINISHED")
     private LocalDateTime timeFinished;
 }
+
+
