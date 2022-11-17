@@ -8,6 +8,7 @@ import mi.matveev.service.module.ScenarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +24,7 @@ public class ScenarioController extends AbstractController {
         return process(() -> scenarioService.createScenario(runId, body));
     }
 
-    @PostMapping("/scenario/{scenarioId}")
+    @PutMapping("/scenario/{scenarioId}")
     public ResponseEntity<?> finishScenario(@PathVariable("scenarioId") String scenarioId,
                                             @RequestParam("status") ScenarioStatus status) {
         return process(() -> scenarioService.finishScenario(scenarioId, status));

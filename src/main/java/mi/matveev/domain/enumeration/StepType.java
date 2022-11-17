@@ -5,5 +5,5 @@ public enum StepType {
     AFTER,
     BEFORE_STEP,
     AFTER_STEP,
-    DEFAULT
+    STEP
 }

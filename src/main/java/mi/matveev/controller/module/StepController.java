@@ -8,6 +8,7 @@ import mi.matveev.service.module.StepService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +24,7 @@ public class StepController extends AbstractController {
         return process(() -> stepService.createStep(scenarioId, body));
     }
 
-    @PostMapping("/step/{stepId}")
+    @PutMapping("/step/{stepId}")
     public ResponseEntity<?> finishStep(@PathVariable("stepId") String stepId,
                                         @RequestParam("status") StepStatus status) {
         return process(() -> stepService.finishStep(stepId, status));
