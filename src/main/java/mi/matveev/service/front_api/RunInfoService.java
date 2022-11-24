@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import mi.matveev.domain.dto.RunInfoDto;
 import mi.matveev.domain.dto.ScenarioInfoDto;
 import mi.matveev.domain.dto.StepInfoDto;
+import mi.matveev.domain.entity.ProjectEntity;
 import mi.matveev.domain.entity.RunEntity;
 import mi.matveev.domain.entity.RunScenariosEntity;
 import mi.matveev.domain.entity.ScenarioStepsEntity;
+import mi.matveev.repository.ProjectRepository;
 import mi.matveev.repository.RunRepository;
 import mi.matveev.repository.RunScenariosRepository;
 import mi.matveev.repository.ScenarioRepository;
@@ -25,9 +27,10 @@ public class RunInfoService {
     private final RunScenariosRepository runScenariosRepository;
     private final ScenarioRepository scenarioRepository;
 
-
     private final ScenarioStepsRepository scenarioStepsRepository;
     private final StepRepository stepRepository;
+
+    private final ProjectRepository projectRepository;
 
     public RunInfoDto getRunInfoById(String runId) {
         RunEntity run = runRepository.findById(runId)
@@ -42,7 +45,25 @@ public class RunInfoService {
                 .build();
     }
 
-    private List<ScenarioInfoDto> getRunScenarios(String runId) {
+    public List<RunInfoDto> getRunsByProjectId(String projectId) {
+        String projectName = projectRepository.findById(projectId)
+                .map(ProjectEntity::getName)
+                .orElseThrow(() -> new NullPointerException("Project with id - '" + projectId + "' not found"));
+
+        return runRepository.findAllByProject(projectName)
+                .stream()
+                .map(run -> RunInfoDto.builder()
+                        .id(run.getId())
+                        .name(run.getName())
+                        .tags(run.getTags())
+                        .status(run.getStatus())
+                        .timeCreated(run.getTimeCreated())
+                        .timeFinished(run.getTimeFinished())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    public List<ScenarioInfoDto> getRunScenarios(String runId) {
         List<String> scenarioIds = runScenariosRepository.findByRunId(runId)
                 .stream()
                 .map(RunScenariosEntity::getScenarioId)
@@ -57,12 +78,11 @@ public class RunInfoService {
                         .status(scenario.getStatus())
                         .timeCreated(scenario.getTimeCreated())
                         .timeFinished(scenario.getTimeFinished())
-                        .steps(getScenarioSteps(scenario.getId()))
                         .build())
                 .collect(Collectors.toList());
     }
 
-    private List<StepInfoDto> getScenarioSteps(String scenarioId) {
+    public List<StepInfoDto> getScenarioSteps(String scenarioId) {
         List<String> stepIds = scenarioStepsRepository.findByScenarioId(scenarioId)
                 .stream()
                 .map(ScenarioStepsEntity::getStepId)

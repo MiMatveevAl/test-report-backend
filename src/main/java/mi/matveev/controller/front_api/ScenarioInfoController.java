@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class RunInfoController extends AbstractController {
+public class ScenarioInfoController extends AbstractController {
     private final RunInfoService runInfoService;
 
-    @GetMapping("/run/{runId}")
-    public ResponseEntity<?> getRunInfo(@PathVariable("runId") String runId) {
-        return process(() -> runInfoService.getRunInfoById(runId));
+    @GetMapping("/run/{runId}/scenarios")
+    public ResponseEntity<?> getRunScenarios(@PathVariable("runId") String runId) {
+        return process(() -> runInfoService.getRunScenarios(runId));
     }
 
-    @GetMapping("/project/{projectId}/runs")
-    public ResponseEntity<?> getRunsByProjectId(@PathVariable("projectId") String projectId) {
-        return process(() -> runInfoService.getRunsByProjectId(projectId));
+    @GetMapping("/scenario/{scenarioId}/steps")
+    public ResponseEntity<?> getScenarioSteps(@PathVariable("scenarioId") String scenarioId) {
+        return process(() -> runInfoService.getScenarioSteps(scenarioId));
     }
 }

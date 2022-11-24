@@ -11,6 +11,8 @@ public abstract class AbstractController {
             return new ResponseEntity<>(serviceHandler.get(), HttpStatus.OK);
         } catch (NullPointerException npe) {
             return new ResponseEntity<>(npe.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (IllegalArgumentException iae) {
+            return new ResponseEntity<>(iae.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }
